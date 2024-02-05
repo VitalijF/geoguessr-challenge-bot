@@ -3,13 +3,11 @@ server:
     8088
 
 telegram:
-  token: 6818995964:AAGIkCKUXzOg7Wmzb8ESrgRZ7k33GKOsTPk
-#  chat-id: -1002140468098
-#  FEI
-  chat-id: -1001257857089
+  token:  #replace with your telegram bot token 6818995964:AAGIkCKUXzOg7Wmzb8ESrgRZ7k33GKOsTPk
+  chat-id: #replace with your chat id
 
 geoguessr:
-  token: k7kSNhizpmj1SzIwe18C2xZrNUHp3lIovnfM9IyOs1A%3DqBZYmetvG%2BTidd%2BPK2K3JaeIvzDPdIJRK3XKVuD362xpbHPjzfitkp2gVzY07gsU9aTRzB4A9yF9ShE10fLFfeaQ%2BHuWNFZ1eYNpfRMXjl8%3D
+  token: #replace with your token
   baseUrl: https://www.geoguessr.com/api
   loginUrl: ${geoguessr.baseUrl}/v3/accounts/signin
   highScoresUrl: ${geoguessr.baseUrl}/v3/results/highscores
@@ -21,11 +19,6 @@ spring:
     url: jdbc:postgresql://localhost:54323/geoguessr_data
     username: geoguessr_user
     password: geoguessr
-#    hikari:
-#      auto-commit: false
-#      connection-timeout: 30000
-#      keepalive-time: 60000
-#      maximum-pool-size: 10
   jpa:
     properties:
       hibernate:

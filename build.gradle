@@ -16,18 +16,16 @@ repositories {
 }
 
 dependencies {
-//    implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     implementation 'com.github.pengrad:java-telegram-bot-api:7.0.1'
-//
+
     runtimeOnly 'org.postgresql:postgresql'
 
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    testImplementation 'org.springframework.amqp:spring-rabbit-test'
 }
 
 tasks.named('test') {
