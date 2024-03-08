@@ -7,15 +7,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TelegramConfigProperties {
 
-    private String tokenId;
+    private String token;
+    private String botName;
     private Long chatId;
 
-    public String getTokenId() {
-        return tokenId;
+    public String getToken() {
+        return token;
     }
 
-    public void setTokenId(String tokenId) {
-        this.tokenId = tokenId;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public Long getChatId() {
@@ -24,5 +25,13 @@ public class TelegramConfigProperties {
 
     public void setChatId(Long chatId) {
         this.chatId = chatId;
+    }
+
+    public String getBotName() {
+        return botName;
+    }
+
+    public void setBotName(String botName) {
+        this.botName = botName;
     }
 }

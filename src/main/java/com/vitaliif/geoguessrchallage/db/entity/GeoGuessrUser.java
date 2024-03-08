@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.util.List;
@@ -23,6 +24,9 @@ public class GeoGuessrUser extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "challenge_id")
     )
     private List<GeoGuessrChallengeEntity> challenges;
+
+    @OneToMany(mappedBy = "user")
+    private List<GeoGuessrChallengeGuessEntity> guesses;
 
     public String getGeoGuessrId() {
         return geoGuessrId;
@@ -46,5 +50,13 @@ public class GeoGuessrUser extends AbstractEntity {
 
     public void setChallenges(List<GeoGuessrChallengeEntity> challenges) {
         this.challenges = challenges;
+    }
+
+    public List<GeoGuessrChallengeGuessEntity> getGuesses() {
+        return guesses;
+    }
+
+    public void setGuesses(List<GeoGuessrChallengeGuessEntity> guesses) {
+        this.guesses = guesses;
     }
 }

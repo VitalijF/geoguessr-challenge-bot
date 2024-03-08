@@ -1,4 +1,7 @@
 package com.vitaliif.geoguessrchallage.geoguessr.model;
 
-public record GeoGuessrGame(GeoGuessrPlayer player) {
+import java.util.List;
+
+public record GeoGuessrGame(GeoGuessrPlayer player,
+                            List<GeoGuessrPoint> rounds) {
 }

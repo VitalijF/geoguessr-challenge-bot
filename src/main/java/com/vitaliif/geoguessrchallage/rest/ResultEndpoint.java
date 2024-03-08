@@ -1,6 +1,7 @@
 package com.vitaliif.geoguessrchallage.rest;
 
 import com.vitaliif.geoguessrchallage.db.service.GeoGuessrChallengeService;
+import com.vitaliif.geoguessrchallage.geoguessr.dto.PointResult;
 import com.vitaliif.geoguessrchallage.geoguessr.model.GeoGuessrChallengeResponse;
 import com.vitaliif.geoguessrchallage.geoguessr.model.GeoGuessrResults;
 import com.vitaliif.geoguessrchallage.geoguessr.service.GeoGuessrService;
@@ -9,6 +10,9 @@ import com.vitaliif.geoguessrchallage.telegram.service.TelegramClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ResultEndpoint {
@@ -27,6 +31,26 @@ public class ResultEndpoint {
         this.messageResultFormatter = messageResultFormatter;
         this.challengeService = challengeService;
         this.geoGuessrService = geoGuessrService;
+    }
+
+    @GetMapping("/just-results")
+    public GeoGuessrResults getResults(@RequestParam("gameId") String gameId) {
+        GeoGuessrResults results = geoGuessrService.getResults(gameId);
+        challengeService.storeResultsData(results, gameId);
+
+        return results;
+    }
+
+    @GetMapping("/points/worst")
+    public String postMessageAboutWorstPoints(@RequestParam("userId") String userId,
+                                              @RequestParam("name") String userName,
+                                              @RequestParam("number") Integer numberOfPoints) {
+
+        final List<PointResult> worstPoints = geoGuessrService.getWorstPoints(userId, numberOfPoints);
+
+        String telegramMessage = messageResultFormatter.formatWorstPoints(worstPoints, userName);
+        telegramClient.postMessage(telegramMessage);
+        return "OK";
     }
 
     @GetMapping("/results")

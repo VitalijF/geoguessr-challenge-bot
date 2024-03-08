@@ -1,6 +1,7 @@
 package com.vitaliif.geoguessrchallage.telegram.service;
 
 
+import com.vitaliif.geoguessrchallage.geoguessr.dto.PointResult;
 import com.vitaliif.geoguessrchallage.geoguessr.model.GeoGuessrChallengeResponse;
 import com.vitaliif.geoguessrchallage.geoguessr.model.GeoGuessrResults;
 import com.vitaliif.geoguessrchallage.telegram.model.TableRow;
@@ -11,6 +12,21 @@ import java.util.stream.Collectors;
 
 @Component
 public class MessageResultFormatter {
+
+    public String formatWorstPoints(List<PointResult> worstPoints, String userName) {
+        StringBuilder formattedMessage = new StringBuilder(String.format(" Старічок <b> %s </b> \nОці точки треба повторити: \n\n", userName));
+        for(PointResult point: worstPoints) {
+            final String link = "https://www.google.com/maps/search/?api=1&query=" + point.latitude() + "," + point.longitude();
+            String message = String.format("Тут набрав %d очок", point.points());
+            formattedMessage.append(String.format("<a href=\"%s\">%s</a>", link, message))
+                    .append("\n");
+        }
+
+        formattedMessage.append("\nПовтори на всякий. Може попадеться ще раз колись, а може і ні.");
+
+        return formattedMessage.toString();
+    }
+
 
 
     //TODO: FIX in normal way
@@ -74,5 +90,10 @@ public class MessageResultFormatter {
      */
     public String generateSpaces(int length) {
         return new String(new char[length]).replace('\0', ' ');
+    }
+
+
+    public String formatUnknownMessage() {
+        return "<b> Я хз що ти хочеш </b>";
     }
 }

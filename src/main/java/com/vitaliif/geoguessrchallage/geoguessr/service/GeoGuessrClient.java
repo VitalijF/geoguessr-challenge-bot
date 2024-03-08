@@ -4,6 +4,8 @@ import com.vitaliif.geoguessrchallage.geoguessr.config.GeoGuessrProperties;
 import com.vitaliif.geoguessrchallage.geoguessr.model.GeoGuessrChallenge;
 import com.vitaliif.geoguessrchallage.geoguessr.model.GeoGuessrChallengeResponse;
 import com.vitaliif.geoguessrchallage.geoguessr.model.GeoGuessrResults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,6 +18,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class GeoGuessrClient {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeoGuessrService.class);
+
     private final RestTemplate restTemplate;
     private final GeoGuessrProperties properties;
 
@@ -26,12 +30,19 @@ public class GeoGuessrClient {
         this.properties = properties;
     }
     public GeoGuessrResults getResults(String gameId) {
-        final ResponseEntity<GeoGuessrResults> response = restTemplate.exchange(
-                properties.getHighScoresUrl() + "/" + gameId,
-                HttpMethod.GET,
-                new HttpEntity<>(buildAuthorizationToken()),
-                GeoGuessrResults.class
-        );
+        final ResponseEntity<GeoGuessrResults> response;
+
+        try {
+            response = restTemplate.exchange(
+                    properties.getHighScoresUrl() + "/" + gameId,
+                    HttpMethod.GET,
+                    new HttpEntity<>(buildAuthorizationToken()),
+                    GeoGuessrResults.class
+            );
+        } catch (Exception e) {
+            LOGGER.error("Error happens for id = " + gameId );
+            throw e;
+        }
 
         return response.getBody();
     }
