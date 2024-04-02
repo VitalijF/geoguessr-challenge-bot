@@ -1,0 +1,31 @@
+server:
+  port:
+    8091
+
+telegram:
+  token:  #replace with your telegram bot token
+  chat-id: #replace with your chat id
+
+geoguessr:
+  token: #replace with your token
+  baseUrl: https://www.geoguessr.com/api
+  loginUrl: ${geoguessr.baseUrl}/v3/accounts/signin
+  highScoresUrl: ${geoguessr.baseUrl}/v3/results/highscores
+  challengesUrl: ${geoguessr.baseUrl}/v3/challenges
+  defaultMapId: 648b198bb5790ced3d14e85c
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:54323/geoguessr_data
+    username: geoguessr_user
+    password: geoguessr
+  jpa:
+    properties:
+      hibernate:
+        #show_sql: true
+        #format_sql: true
+        jdbc:
+          time_zone: UTC
+    hibernate:
+      ddl-auto: update
+

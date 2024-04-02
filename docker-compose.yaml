@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  postgres:
+    build: ./docker-compose/postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - APP_DB_USER=geoguessr_user
+      - APP_DB_PASS=geoguessr
+      - APP_DB_NAME=geoguessr_data
+    ports:
+      - 54323:5432 # we deliberately use host port 54322 to avoid clashes with local PostgreSQL instance
