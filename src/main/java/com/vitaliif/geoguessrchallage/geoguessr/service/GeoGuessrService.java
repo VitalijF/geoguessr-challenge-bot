@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -91,6 +92,7 @@ public class GeoGuessrService {
                 .filter(s -> s.getDate().isAfter(LocalDate.now().minusDays(daysBefore)))
                 .map(GeoGuessrChallengeEntity::getPoints)
                 .flatMap(Collection::stream)
+                .filter(s -> !CollectionUtils.isEmpty(s.getGuesses()))
                 .map(s -> Pair.of(s, calculateAveragePoints(s.getGuesses())))
                 .sorted(Comparator.comparingInt(Pair::getValue))
                 .limit(numberOfRecords)

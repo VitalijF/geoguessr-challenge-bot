@@ -64,7 +64,6 @@ public class GeoGuessrChallengeService {
         for (GeoGuessrResultItem item: items) {
             processItem(item, entity);
         }
-
     }
 
     private void processItem(GeoGuessrResultItem item, GeoGuessrChallengeEntity entity) {
@@ -99,7 +98,8 @@ public class GeoGuessrChallengeService {
 
         List<GeoGuessrPointGuess> guesses = item.game().player().guesses();
         for (int i = 0; i < guesses.size() ; i++) {
-            GeoGuessrChallengePointEntity pointEntity = challengeEntity.getPoints().get(0);
+            GeoGuessrChallengePointEntity pointEntity = challengeEntity.getPoints().get(i);
+
             GeoGuessrChallengeGuessEntity guess = new GeoGuessrChallengeGuessEntity();
             guess.setChallengePoint(pointEntity);
             guess.setOrder(i);
