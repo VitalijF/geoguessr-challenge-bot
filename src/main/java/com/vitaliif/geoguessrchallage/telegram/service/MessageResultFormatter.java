@@ -120,6 +120,8 @@ public class MessageResultFormatter {
                <b>Сьогоднішні результати:</b>
                <code>@geoguessr_challange_bot results</code>
                <code>@geoguessr_challange_bot хто роз'їбав?</code>
+               <b>Найгірші точки:</b>
+               <code>@geoguessr_challange_bot worst points</code>
                <b>Доступні команди бота:</b>
                <code>@geoguessr_challange_bot info</code>
                """;
