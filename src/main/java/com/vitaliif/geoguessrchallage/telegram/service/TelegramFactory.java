@@ -1,9 +1,12 @@
 package com.vitaliif.geoguessrchallage.telegram.service;
 
+import com.vitaliif.geoguessrchallage.geoguessr.dto.PointResult;
 import com.vitaliif.geoguessrchallage.geoguessr.model.GeoGuessrChallengeResponse;
 import com.vitaliif.geoguessrchallage.geoguessr.model.GeoGuessrResults;
 import com.vitaliif.geoguessrchallage.geoguessr.service.GeoGuessrService;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class TelegramFactory {
@@ -39,6 +42,10 @@ public class TelegramFactory {
                     GeoGuessrChallengeResponse geoGuessrChallengeResponse = service.startChallenge();
                     yield messageResultFormatter.formatResultsMessage(geoGuessrChallengeResponse);
                 }
+            }
+            case WORST_POINTS -> {
+                final List<PointResult> worstPoints = service.getWorstPoints(5, 7);
+                yield messageResultFormatter.formatWorstPoints(worstPoints);
             }
             case INFO -> messageResultFormatter.formatInfoMessage();
             default -> messageResultFormatter.formatUnknownMessage();

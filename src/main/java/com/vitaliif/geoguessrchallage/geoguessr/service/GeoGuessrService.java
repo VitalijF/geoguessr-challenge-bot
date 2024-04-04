@@ -10,13 +10,17 @@ import com.vitaliif.geoguessrchallage.geoguessr.dto.PointResult;
 import com.vitaliif.geoguessrchallage.geoguessr.model.GeoGuessrChallengeResponse;
 import com.vitaliif.geoguessrchallage.geoguessr.model.GeoGuessrResults;
 import jakarta.transaction.Transactional;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -77,7 +81,34 @@ public class GeoGuessrService {
                 .limit(numberOfRecords)
                 .map(f -> new PointResult(f.getChallengePoint().getLatitude(), f.getChallengePoint().getLongitude(), f.getPoints()))
                 .toList();
+    }
 
+
+    @Transactional
+    public List<PointResult> getWorstPoints(Integer numberOfRecords, Integer daysBefore) {
+        return StreamSupport
+                .stream(challengeRepository.findAll().spliterator(), false)
+                .filter(s -> s.getDate().isAfter(LocalDate.now().minusDays(daysBefore)))
+                .map(GeoGuessrChallengeEntity::getPoints)
+                .flatMap(Collection::stream)
+                .map(s -> Pair.of(s, calculateAveragePoints(s.getGuesses())))
+                .sorted(Comparator.comparingInt(Pair::getValue))
+                .limit(numberOfRecords)
+                .map(f -> new PointResult(f.getKey().getLatitude(), f.getKey().getLongitude(), f.getValue()))
+                .toList();
+    }
+
+    private Integer calculateAveragePoints(List<GeoGuessrChallengeGuessEntity> guesses) {
+        OptionalDouble average = guesses.stream()
+                .filter(g -> g.getPoints() != 0)
+                .mapToInt(GeoGuessrChallengeGuessEntity::getPoints)
+                .average();
+
+        if (average.isEmpty()) {
+            return null;
+        }
+
+        return (int) Math.round(average.getAsDouble());
     }
 
     public GeoGuessrChallengeResponse startChallenge() {

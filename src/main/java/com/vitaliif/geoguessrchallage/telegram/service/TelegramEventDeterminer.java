@@ -12,7 +12,8 @@ public class TelegramEventDeterminer {
             "запускай шарманку",  TelegramEvent.START_CHALLENGE,
             "results", TelegramEvent.GET_TODAY_RESULTS,
             "хто роз'їбав?", TelegramEvent.GET_TODAY_RESULTS,
-            "info", TelegramEvent.INFO
+            "info", TelegramEvent.INFO,
+            "worst points", TelegramEvent.WORST_POINTS
     );
 
     public TelegramEvent determineEvent(String message) {

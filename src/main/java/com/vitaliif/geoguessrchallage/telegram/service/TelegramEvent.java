@@ -6,7 +6,7 @@ public enum TelegramEvent {
     GET_TODAY_RESULTS,
     GET_RESULTS_FOR_SPECIFIC_DATE,
 
+    WORST_POINTS,
     INFO,
-
     UNKNOWN
 }

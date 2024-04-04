@@ -27,6 +27,18 @@ public class MessageResultFormatter {
         return formattedMessage.toString();
     }
 
+    public String formatWorstPoints(List<PointResult> worstPoints) {
+        StringBuilder formattedMessage = new StringBuilder(" Найгірші точки за останні <b> 7 </b> днів \n\n");
+        for(PointResult point: worstPoints) {
+            final String link = "https://www.google.com/maps/search/?api=1&query=" + point.latitude() + "," + point.longitude();
+            String message = String.format("В середньому набрано %d очок", point.points());
+            formattedMessage.append(String.format("<a href=\"%s\">%s</a>", link, message))
+                    .append("\n");
+        }
+
+        return formattedMessage.toString();
+    }
+
 
 
     //TODO: FIX in normal way
