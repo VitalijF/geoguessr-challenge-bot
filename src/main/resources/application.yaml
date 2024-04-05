@@ -3,11 +3,12 @@ server:
     8091
 
 telegram:
-  token:  #replace with your telegram bot token
-  chat-id: #replace with your chat id
+  token: ${GEOGUESSR_TELEGRAM_TOKEN}
+  chat-id: ${GEOGUESSR_TELEGRAM_CHAT_ID}
+  bot-name: ${GEOGUESSR_TELEGRAM_BOT_NAME}
 
 geoguessr:
-  token: #replace with your token
+  token: ${GEOGUESSR_TOKEN}
   baseUrl: https://www.geoguessr.com/api
   loginUrl: ${geoguessr.baseUrl}/v3/accounts/signin
   highScoresUrl: ${geoguessr.baseUrl}/v3/results/highscores
@@ -16,14 +17,14 @@ geoguessr:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:54323/geoguessr_data
-    username: geoguessr_user
-    password: geoguessr
+    url: ${GEOGUESSR_DATA_SOURCE_URL:jdbc:postgresql://localhost:54323/geoguessr_data}
+    username: ${GEOGUESSR_DATA_SOURCE_USERNAME:geoguessr_user}
+    password: ${GEOGUESSR_DATA_SOURCE_PASSWORD:geoguessr}
   jpa:
     properties:
       hibernate:
-        #show_sql: true
-        #format_sql: true
+        show_sql: true
+        format_sql: true
         jdbc:
           time_zone: UTC
     hibernate:

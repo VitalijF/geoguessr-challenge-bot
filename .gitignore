@@ -37,3 +37,4 @@ out/
 .vscode/
 
 credentials.conf
+/production-env.sh
